@@ -1,0 +1,53 @@
+project:
+  seed: 42
+
+model:
+  name: Qwen/Qwen3-4B
+  torch_dtype: float16
+
+dataset:
+  name: locuslab/TOFU
+  config: full
+  split: train
+  train_path:
+  max_samples:
+
+training:
+  save_dir: artifacts/finch_qlora
+  save_final: true
+  epochs: 1
+  batch_size: 1
+  max_length: 1024
+  learning_rate: 2.0e-5
+  eta_max: 5.0e-4
+  ema_alpha: 0.9
+  weight_decay: 0.0
+  max_grad_norm: 1.0
+
+qlora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: all-linear
+  bnb_4bit_quant_type: nf4
+  bnb_4bit_use_double_quant: true
+  disable_gradient_checkpointing: false
+
+prompts:
+  enable_thinking: false
+
+eval:
+  output_dir: eval_results_quick
+  tasks:
+    - hellaswag
+    - winogrande
+    - ifeval
+  batch_size: 4
+  device: cuda:0
+  limit: 80
+  num_fewshot:
+  cli_style: auto
+  model_args:
+    dtype: float16
+    load_in_4bit: true
+    trust_remote_code: true

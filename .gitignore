@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+artifacts/
+eval_results/
+eval_results_quick/
+*.log
